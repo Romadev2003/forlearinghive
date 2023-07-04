@@ -4,16 +4,16 @@ import 'package:forlearinghive/models/note_model.dart';
 import 'package:forlearinghive/screens/home_page.dart';
 import 'package:provider/provider.dart';
 
-class AddPage extends StatefulWidget {
-  const AddPage( {Key? key}) : super(key: key);
-    @override
-  State<AddPage> createState() => _AddPageState();
+class InfoPage extends StatefulWidget {
+  const InfoPage( {Key? key}) : super(key: key);
+  @override
+  State<InfoPage> createState() => _InfoPageState();
 }
 
-class _AddPageState extends State<AddPage> {
+class _InfoPageState extends State<InfoPage> {
   late TextEditingController titleController;
   late TextEditingController disController;
-    @override
+  @override
   void initState() {
     super.initState();
     titleController = TextEditingController();
@@ -29,10 +29,13 @@ class _AddPageState extends State<AddPage> {
 
   @override
   Widget build(BuildContext context) {
+    NoteModel note=Provider.of<MainProvider>(context, listen: false).selectednote;
+    disController.text=note.dis;
+    titleController.text=note.title;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Note"),
+        title: const Text("Edit Note"),
       ),
       body: Container(
         margin: const EdgeInsets.all(8),
@@ -42,7 +45,7 @@ class _AddPageState extends State<AddPage> {
               width: double.infinity,
               height: 50,
               decoration: BoxDecoration(
-                 color: const Color(0xff1B1B1B),
+                color: const Color(0xff1B1B1B),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Center(
@@ -58,14 +61,14 @@ class _AddPageState extends State<AddPage> {
                 ),
               ),
             ),
-           const Divider(thickness: 1,color: Colors.white,),
+            const Divider(thickness: 1,color: Colors.white,),
             Expanded(
               flex: 10,
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                   color: const Color(0xff1B1B1B),
+                  color: const Color(0xff1B1B1B),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: TextField(
@@ -83,7 +86,7 @@ class _AddPageState extends State<AddPage> {
             const SizedBox(height: 56,),
             ElevatedButton(
               onPressed: () {
-                Provider.of<MainProvider>(context, listen: false).addData(NoteModel(titleController.text, disController.text, DateTime.now(), false));
+                Provider.of<MainProvider>(context, listen: false).updateData(NoteModel(titleController.text, disController.text, DateTime.now(), false));
                 Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=>const HomePage()), (route) => false);
               },
               child: Container(
